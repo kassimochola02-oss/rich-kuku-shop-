@@ -1,0 +1,490 @@
+<!doctype html>
+<html lang="en">
+  <head>
+    <meta charset="UTF-8" />
+    <meta name="viewport" content="width=device-width, initial-scale=1.0" />
+    <title>Our Menu | Rich Chicken Hub</title>
+    <link
+      rel="stylesheet"
+      href="{{ url_for('static', filename='style.css') }}"
+    />
+    <style>
+      :root {
+        --primary-orange: #ff6600;
+        --dark-brown: #352215;
+        --cream: #fffaf0;
+      }
+
+      body {
+        font-family: "Segoe UI", Tahoma, Geneva, Verdana, sans-serif;
+        background-color: var(--cream);
+        color: var(--dark-brown);
+        margin: 0;
+        padding: 20px;
+        background-image:
+          linear-gradient(rgba(255, 250, 240, 0.9), rgba(255, 250, 240, 0.9)),
+          url("https://www.transparenttextures.com/patterns/pinstriped-suit.png"); /* Subtle texture */
+      }
+
+      .menu-header {
+        text-align: center;
+        padding: 40px 0;
+      }
+
+      /* "READY TO PLACE YOUR ORDER" */
+      .checkout-header h1 {
+        font-family:
+          system-ui,
+          -apple-system,
+          BlinkMacSystemFont,
+          "Segoe UI",
+          Roboto,
+          Oxygen,
+          Ubuntu,
+          Cantarell,
+          "Open Sans",
+          "Helvetica Neue",
+          Arial,
+          sans-serif;
+
+        text-transform: uppercase; /*clean, bold, and authoritative. */
+        font-weight: 800; /* Extra bold */
+        letter-spacing: 2px; /* Tighter letters look more professional for headings */
+        color: #ff8c00; /* A vibrant, appetizing red */
+        text-shadow: 2px 2px 0px gba(0, 0, 0, 0.7); /* Visual effect */ /* deep black shadow with high visibility. */
+        margin-bottom: 5px;
+        font-size: 4rem;
+      }
+
+      /* "Freshly roasted daily at Rich Chicken Hub" */
+      .checkout-header p {
+        font-family:
+          "segoe UI", Tahoma, "Segoe UI", Tahoma, Geneva, Verdana, sans-serif;
+        font-size: 2rem; /* Script fonts need to be larger to stay readable */
+        font-style: italic;
+        font-weight: 600; /* Makes the script font pop more */
+        color: #0e0d0d; /* A deep "roasted" brown */
+        margin-top: 2.5px;
+        letter-spacing: 1px;
+      }
+
+      .checkout-header h1 {
+        text-shadow: 2px 2px 0px rgba(248, 205, 13, 0.1);
+        padding: 40px 20px;
+        text-align: center;
+        background-color: var(
+          --cream
+        ); /* Or whatever your warm background is */
+      }
+
+      .menu-container {
+        max-width: 800px;
+        margin: 0 auto;
+        display: flex;
+        flex-direction: column;
+        gap: 20px;
+        padding: 10px;
+      }
+
+      .menu-item {
+        display: flex;
+        align-items: center;
+        background: white;
+        padding: 20px;
+        border-radius: 15px;
+        box-shadow: 0 10px 20px rgba(0, 0, 0, 0.05);
+        transition: transform 0.3s ease;
+      }
+
+      .menu-item:hover {
+        transform: translateY(-5px);
+      }
+
+      .menu-item img {
+        width: 150px;
+        height: 150px;
+        object-fit: cover;
+        border-radius: 10px;
+        margin-right: 20px;
+      }
+
+      .item-details {
+        flex-grow: 1;
+      }
+
+      .item-details h3 {
+        margin: 0 0 5px 0;
+        font-size: 1.5rem;
+        color: var(--primary-orange);
+      }
+
+      .price-tag {
+        font-weight: bold;
+        font-size: 1.1rem;
+        color: #27ae60; /* Green for pricing */
+      }
+
+      .btc-price {
+        font-size: 0.9rem;
+        color: #f7931a; /* Bitcoin Orange */
+        display: block;
+        margin-top: 5px;
+      }
+
+      .btn-order {
+        background: var(--primary-orange);
+        color: rgb(247, 245, 245);
+        padding: 12px 18px;
+        border: none;
+        border-radius: 12px;
+        cursor: pointer;
+        text-decoration: none;
+        font-weight: 700;
+        transition:
+          transform 0.25s ease,
+          box-shadow 0.25s ease,
+          background 0.25s ease;
+      }
+
+      .btn-order:hover {
+        transform: translateY(-2px);
+        box-shadow: 0 14px 25px rgba(255, 102, 0, 0.2);
+        background: #ff7c2e;
+      }
+
+      .nav-home-btn {
+        display: inline-flex;
+        align-items: center;
+        gap: 8px;
+        color: #ffffff;
+        text-decoration: none;
+        background: linear-gradient(135deg, #ff7a00, #ff5400);
+        padding: 12px 18px;
+        border-radius: 999px;
+        box-shadow: 0 18px 30px rgba(255, 102, 0, 0.18);
+        position: fixed;
+        top: 20px;
+        left: 20px;
+        z-index: 20;
+        font-weight: 700;
+        transition:
+          transform 0.2s ease,
+          box-shadow 0.2s ease,
+          filter 0.2s ease;
+      }
+
+      .nav-home-btn:hover {
+        transform: translateY(-1px);
+        box-shadow: 0 22px 40px rgba(255, 102, 0, 0.28);
+        filter: brightness(1.05);
+      }
+
+      .cart-summary {
+        background: rgba(255, 255, 255, 0.94);
+        border: 1px solid rgba(255, 166, 77, 0.35);
+        padding: 18px 22px;
+        border-radius: 24px;
+        display: flex;
+        justify-content: space-between;
+        align-items: center;
+        gap: 16px;
+        margin: 0 auto 30px;
+        max-width: 800px;
+        box-shadow: 0 18px 45px rgba(17, 17, 17, 0.06);
+      }
+
+      .cart-summary div {
+        font-weight: 600;
+        color: var(--dark-brown);
+      }
+
+      .cart-summary span {
+        color: #ff6600;
+      }
+
+      .checkout-panel {
+        max-width: 800px;
+        margin: 30px auto 0;
+        display: flex;
+        flex-wrap: wrap;
+        justify-content: space-between;
+        align-items: center;
+        gap: 16px;
+      }
+
+      .btn-checkout {
+        background: #ff6600;
+        border: none;
+        color: white;
+        padding: 14px 22px;
+        border-radius: 999px;
+        cursor: pointer;
+        font-weight: 800;
+        transition:
+          background 0.2s ease,
+          transform 0.2s ease;
+      }
+
+      .btn-checkout:hover:not(:disabled) {
+        background: #ff7c2e;
+        transform: translateY(-1px);
+      }
+
+      .btn-checkout:disabled {
+        opacity: 0.65;
+        cursor: not-allowed;
+      }
+
+      .checkout-note {
+        font-size: 0.95rem;
+        color: var(--dark-brown);
+        flex: 1 1 280px;
+      }
+
+      .item-actions {
+        display: flex;
+        flex-wrap: wrap;
+        gap: 12px;
+        align-items: center;
+        margin-top: 18px;
+      }
+
+      .item-actions label {
+        font-size: 0.95rem;
+        color: var(--dark-brown);
+      }
+
+      .item-quantity {
+        width: 84px;
+        padding: 10px 14px;
+        border-radius: 12px;
+        border: 1px solid #ded7cc;
+        font-size: 1rem;
+      }
+
+      .menu-item .item-details {
+        flex-grow: 1;
+      }
+    </style>
+    <link
+      rel="stylesheet"
+      href="https://cdnjs.cloudflare.com/ajax/libs/font-awesome/6.0.0/css/all.min.css"
+    />
+    <link
+      href="https://fonts.googleapis.com/css2?family=Lobster&family=Poppins:wght@800&display=swap"
+      rel="stylesheet"
+    />
+  </head>
+  <body>
+    <a href="Index.html" class="nav-home-btn">
+      <i class="fas fa-home"></i><span> Home</span>
+    </a>
+    <header class="menu-header">
+      <h1>Ready to Place your Order?</h1>
+      <p>Freshly roasted daily at Rich Chicken Hub</p>
+    </header>
+
+    <div class="cart-summary">
+      <div><strong>Cart:</strong> <span id="cartCount">0</span> items</div>
+      <div><strong>Total:</strong> <span id="cartTotal">KES 0</span></div>
+    </div>
+
+    <div class="menu-container">
+      <div class="menu-item">
+        <img src="images/kuku full.jpg" alt="Full/half Roast Chicken" />
+        <div class="item-details">
+          <h3>Full/half Roast Chicken</h3>
+          <span class="price-tag">Ksh 550-800</span>
+          <span class="btc-price">₿ 0.00067 BTC</span>
+          <div class="item-actions">
+            <label>
+              Qty
+              <input type="number" min="1" value="1" class="item-quantity" />
+            </label>
+            <button
+              type="button"
+              class="btn-order add-cart"
+              data-name="Full/half Roast Chicken"
+              data-price="800"
+            >
+              Add to cart
+            </button>
+          </div>
+        </div>
+      </div>
+
+      <div class="menu-item">
+        <img src="images/drumstick.jpg" alt="Drum stick" />
+        <div class="item-details">
+          <h3>Drumstick</h3>
+          <span class="price-tag">Ksh 550 a kg </span>
+          <span class="btc-price">₿ 0.00046 BTC</span>
+          <div class="item-actions">
+            <label>
+              Qty
+              <input type="number" min="1" value="1" class="item-quantity" />
+            </label>
+            <button
+              type="button"
+              class="btn-order add-cart"
+              data-name="Drumstick"
+              data-price="550"
+            >
+              Add to cart
+            </button>
+          </div>
+        </div>
+      </div>
+
+      <div class="menu-item">
+        <img src="images/chicken wings.jpg" alt="Chicken Wings" />
+        <div class="item-details">
+          <h3>Chicken Wings</h3>
+          <span class="price-tag">Ksh 600 a kg</span>
+          <span class="btc-price">₿ 0.00050 BTC</span>
+          <div class="item-actions">
+            <label>
+              Qty
+              <input type="number" min="1" value="1" class="item-quantity" />
+            </label>
+            <button
+              type="button"
+              class="btn-order add-cart"
+              data-name="Chicken Wings"
+              data-price="600"
+            >
+              Add to cart
+            </button>
+          </div>
+        </div>
+      </div>
+
+      <div class="menu-item">
+        <img src="images/chips.jpg" alt="Golden Chips" />
+        <div class="item-details">
+          <h3>Golden Chips</h3>
+          <span class="price-tag">Ksh 70/100/150</span>
+          <span class="btc-price">₿ 0.00012 BTC</span>
+          <div class="item-actions">
+            <label>
+              Qty
+              <input type="number" min="1" value="1" class="item-quantity" />
+            </label>
+            <button
+              type="button"
+              class="btn-order add-cart"
+              data-name="Golden Chips"
+              data-price="150"
+            >
+              Add to cart
+            </button>
+          </div>
+        </div>
+      </div>
+
+      <div class="menu-item">
+        <img src="images/gizzards.png" alt="Gizzards" />
+        <div class="item-details">
+          <h3>Gizzards</h3>
+          <span class="price-tag">Ksh 480</span>
+          <span class="btc-price">₿ 0.00040 BTC</span>
+          <div class="item-actions">
+            <label>
+              Qty
+              <input type="number" min="1" value="1" class="item-quantity" />
+            </label>
+            <button
+              type="button"
+              class="btn-order add-cart"
+              data-name="Gizzards"
+              data-price="480"
+            >
+              Add to cart
+            </button>
+          </div>
+        </div>
+      </div>
+
+      <div class="menu-item">
+        <img src="images/neck.png" alt="Neck" />
+        <div class="item-details">
+          <h3>Neck</h3>
+          <span class="price-tag">Ksh 300</span>
+          <span class="btc-price">₿ 0.00025 BTC</span>
+          <div class="item-actions">
+            <label>
+              Qty
+              <input type="number" min="1" value="1" class="item-quantity" />
+            </label>
+            <button
+              type="button"
+              class="btn-order add-cart"
+              data-name="Neck"
+              data-price="300"
+            >
+              Add to cart
+            </button>
+          </div>
+        </div>
+      </div>
+
+      <div class="menu-item">
+        <img src="images/liver.png" alt="Liver" />
+        <div class="item-details">
+          <h3>Liver</h3>
+          <span class="price-tag">Ksh 300</span>
+          <span class="btc-price">₿ 0.00025 BTC</span>
+          <div class="item-actions">
+            <label>
+              Qty
+              <input type="number" min="1" value="1" class="item-quantity" />
+            </label>
+            <button
+              type="button"
+              class="btn-order add-cart"
+              data-name="Liver"
+              data-price="300"
+            >
+              Add to cart
+            </button>
+          </div>
+        </div>
+      </div>
+
+      <div class="menu-item">
+        <img src="images/smokes.jpg" alt="smokes" />
+        <div class="item-details">
+          <h3>Smokes</h3>
+          <span class="price-tag">Ksh 50</span>
+          <span class="btc-price">₿ 0.000042 BTC</span>
+          <div class="item-actions">
+            <label>
+              Qty
+              <input type="number" min="1" value="1" class="item-quantity" />
+            </label>
+            <button
+              type="button"
+              class="btn-order add-cart"
+              data-name="Smokes"
+              data-price="50"
+            >
+              Add to cart
+            </button>
+          </div>
+        </div>
+      </div>
+    </div>
+
+    <div class="checkout-panel">
+      <button type="button" id="gotoCheckout" class="btn-checkout" disabled>
+        Add items to cart to checkout
+      </button>
+      <p class="checkout-note">
+        Order as many items as you want. Your cart adds everything
+        automatically.
+      </p>
+    </div>
+
+    <script src="java.js"></script>
+  </body>
+</html>
